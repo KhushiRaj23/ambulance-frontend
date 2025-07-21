@@ -89,8 +89,27 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const updateProfile = async (updateData) => {
+    setLoading(true);
+    setError('');
+    try {
+      const res = await userApi.updateProfile(updateData);
+      // Only update if data is different
+      if (JSON.stringify(res.data) !== JSON.stringify(user)) {
+        setUser(res.data);
+        localStorage.setItem('user', JSON.stringify(res.data));
+      }
+      return { success: true, data: res.data };
+    } catch (err) {
+      setError(err.response?.data || 'Failed to update profile');
+      return { success: false, error: err.response?.data || 'Failed to update profile' };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, token, loading, error, login, register, logout, fetchProfile }}>
+    <AuthContext.Provider value={{ user, token, loading, error, login, register, logout, fetchProfile, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );

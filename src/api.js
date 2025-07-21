@@ -30,6 +30,7 @@ export const authApi = {
 export const userApi = {
   getProfile: (userId) => api.get(`/user/profile`, { params: { userId } }),
   getBookingHistory: (userId) => api.get(`/user/booking/history`, { params: { userId } }),
+  updateProfile: (data) => api.put('/user/profile', data),
 };
 
 // --- Hospital ---

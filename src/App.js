@@ -4,11 +4,9 @@ import Navbar from './components/Navbar';
 import Loader from './components/Loader';
 import Notification from './components/Notification';
 import ProtectedRoute from './components/ProtectedRoute';
-
-// Import all pages (to be created next)
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Profile from './pages/Profile';
+import Profile from './Profile';
 import HospitalSearch from './pages/HospitalSearch';
 import AmbulanceBooking from './pages/AmbulanceBooking';
 import BookingHistory from './pages/BookingHistory';

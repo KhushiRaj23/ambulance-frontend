@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { adminApi } from '../api';
 import Loader from '../components/Loader';
 import Notification from '../components/Notification';
+import { useNavigate } from 'react-router-dom';
 
 export default function AdminBookings() {
   const [bookings, setBookings] = useState([]);
@@ -10,6 +11,7 @@ export default function AdminBookings() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const fetchBookings = (pageNum = 1) => {
     setLoading(true);
@@ -52,6 +54,12 @@ export default function AdminBookings() {
 
   return (
     <div className="max-w-7xl mx-auto mt-12 p-6 bg-white rounded-2xl shadow-lg">
+      <button
+        onClick={() => navigate('/admin')}
+        className="mb-4 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-all duration-150 shadow"
+      >
+        ← Back
+      </button>
       <h2 className="text-3xl font-bold mb-8 text-center text-blue-900">All Bookings</h2>
 
       {success && <Notification type="success" message={success} />}
