@@ -14,6 +14,7 @@ import ManageAmbulances from './pages/ManageAmbulances';
 import AdminBookings from './pages/AdminBookings';
 import HospitalAmbulances from './pages/HospitalAmbulances';
 import Home from './pages/Home';
+import About from './pages/About';
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
         <main className="pt-16">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route

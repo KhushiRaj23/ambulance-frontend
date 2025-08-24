@@ -26,6 +26,7 @@ export default function HospitalAmbulances() {
   const { user } = useAuth();
   const [ambulances, setAmbulances] = useState([]);
   const [hospital, setHospital] = useState(null);
+  const [ambulanceCounts, setAmbulanceCounts] = useState({ total: 0, available: 0, onDuty: 0, maintenance: 0 });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -44,7 +45,8 @@ export default function HospitalAmbulances() {
         const all = res.data.content || res.data;
         setHospital(all.find(h => String(h.id) === String(id)));
       }),
-      ambulanceApi.getAvailable(id).then(res => setAmbulances(res.data))
+      ambulanceApi.getByHospital(id).then(res => setAmbulances(res.data)),
+      ambulanceApi.getCounts(id).then(res => setAmbulanceCounts(res.data))
     ])
       .catch(() => setError('Failed to fetch ambulances or hospital'))
       .finally(() => setLoading(false));
@@ -111,9 +113,13 @@ export default function HospitalAmbulances() {
       setShowBookingForm(false);
       setSelectedAmbulance(null);
 
-      // Refresh ambulances list
-      const res = await ambulanceApi.getAvailable(id);
-      setAmbulances(res.data);
+      // Refresh ambulances list and counts
+      const [ambulancesRes, countsRes] = await Promise.all([
+        ambulanceApi.getByHospital(id),
+        ambulanceApi.getCounts(id)
+      ]);
+      setAmbulances(ambulancesRes.data);
+      setAmbulanceCounts(countsRes.data);
 
       setTimeout(() => navigate('/history'), 1500);
     } catch (err) {
@@ -123,8 +129,7 @@ export default function HospitalAmbulances() {
     }
   };
 
-  const availableAmbulances = ambulances.filter(a => a.status === 'AVAILABLE');
-  const onDutyAmbulances = ambulances.filter(a => a.status === 'ON_DUTY');
+  // Ambulances are now filtered by the backend, counts come from dedicated endpoint
 
   if (loading && !hospital) {
     return (
@@ -173,14 +178,14 @@ export default function HospitalAmbulances() {
         <Notification type="success" message={success} />
 
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
             <div className="flex items-center justify-between">
               <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center">
                 <Truck className="w-6 h-6 text-blue-600" />
               </div>
               <div className="text-right">
-                <div className="text-2xl font-bold text-gray-900">{ambulances.length}</div>
+                <div className="text-2xl font-bold text-gray-900">{ambulanceCounts.total}</div>
                 <div className="text-sm text-gray-600">Total Ambulances</div>
               </div>
             </div>
@@ -192,7 +197,7 @@ export default function HospitalAmbulances() {
                 <CheckCircle className="w-6 h-6 text-green-600" />
               </div>
               <div className="text-right">
-                <div className="text-2xl font-bold text-gray-900">{availableAmbulances.length}</div>
+                <div className="text-2xl font-bold text-gray-900">{ambulanceCounts.available}</div>
                 <div className="text-sm text-gray-600">Available</div>
               </div>
             </div>
@@ -204,8 +209,20 @@ export default function HospitalAmbulances() {
                 <Clock className="w-6 h-6 text-yellow-600" />
               </div>
               <div className="text-right">
-                <div className="text-2xl font-bold text-gray-900">{onDutyAmbulances.length}</div>
+                <div className="text-2xl font-bold text-gray-900">{ambulanceCounts.onDuty}</div>
                 <div className="text-sm text-gray-600">On Duty</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
+            <div className="flex items-center justify-between">
+              <div className="w-12 h-12 bg-red-100 rounded-2xl flex items-center justify-center">
+                <AlertTriangle className="w-6 h-6 text-red-600" />
+              </div>
+              <div className="text-right">
+                <div className="text-2xl font-bold text-gray-900">{ambulanceCounts.maintenance}</div>
+                <div className="text-sm text-gray-600">Maintenance</div>
               </div>
             </div>
           </div>

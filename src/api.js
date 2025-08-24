@@ -46,6 +46,9 @@ export const ambulanceApi = {
   getAvailable: (hospitalId) => api.get('/ambulances/available', { params: { hospitalId } }),
   getAllAvailable: () => api.get('/ambulances/available/all'),
   getAll: () => api.get('/admin/ambulances/all'),
+  getByHospital: (hospitalId) => api.get(`/ambulances/hospital/${hospitalId}`),
+  getCounts: (hospitalId) => api.get(`/ambulances/counts`, { params: { hospitalId } }),
+  getByStatus: (status) => api.get(`/ambulances/status/${status}`),
   add: (ambulance) => api.post('/admin/ambulances/add', ambulance),
   remove: (ambulanceId) => api.delete('/admin/ambulances/remove', { params: { ambulanceId } }),
   changeStatus: (ambulanceId, status) => api.patch('/admin/ambulance/status', null, { params: { ambulanceId, status } }),
@@ -55,6 +58,9 @@ export const ambulanceApi = {
 export const bookingApi = {
   book: (userId, bookingRequest) => api.post('/booking/book', bookingRequest, { params: { userId } }),
   getHistory: (userId) => api.get('/booking/history', { params: { userId } }),
+  complete: (bookingId) => api.patch(`/booking/complete/${bookingId}`),
+  cancel: (bookingId) => api.patch(`/booking/cancel/${bookingId}`),
+  getActive: (userId) => api.get('/booking/active', { params: { userId } }),
 };
 
 // --- Admin ---
