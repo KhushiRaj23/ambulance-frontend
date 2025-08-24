@@ -9,16 +9,25 @@ A comprehensive web application for emergency ambulance booking and management, 
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
-- [Project Snapshots](#snapshot)
-- [Installation & Setup](#installation--setup)
-- [API Documentation](#api-documentation)
-- [Usage Guide](#usage-guide)
-- [Contributing](#contributing)
-- [License](#license)
+- [Overview](#-overview)
+- [Features](#-features)
+- [Technology Stack](#️-technology-stack)
+- [Project Structure](#-project-structure)
+- [Project Snapshots](#-project-snapshots)
+- [Installation & Setup](#-installation--setup)
+- [API Documentation](#-api-documentation)
+- [Usage Guide](#-usage-guide)
+- [Configuration](#-configuration)
+- [Testing](#-testing)
+- [Deployment](#-deployment)
+- [Contributing](#-contributing)
+- [Changelog](#-changelog)
+- [Known Issues](#-known-issues)
+- [Support](#-support)
+- [License](#-license)
+- [Acknowledgments](#-acknowledgments)
+- [Future Roadmap](#-future-roadmap)
+
 
 ## 🎯 Overview
 
